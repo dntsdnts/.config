@@ -1,0 +1,22 @@
+<application>
+  <component name="ProjectManager">
+    <defaultProject>
+      <component name="CompilerWorkspaceConfiguration">
+        <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+      </component>
+      <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+        <file url="PROJECT" charset="UTF-8" />
+      </component>
+      <component name="ProjectViewState">
+        <option name="flattenPackages" value="true" />
+        <option name="showLibraryContents" value="true" />
+        <option name="showMembers" value="true" />
+        <option name="showVisibilityIcons" value="true" />
+        <option name="sortByType" value="true" />
+      </component>
+      <component name="PropertiesComponent">
+        <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+      </component>
+    </defaultProject>
+  </component>
+</application>

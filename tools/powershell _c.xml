@@ -1,0 +1,9 @@
+<toolSet name="powershell /c">
+  <tool name=" rm .\localdomain\ -Recurse" showInMainMenu="false" showInEditor="false" showInProject="false" showInSearchPopup="false" disabled="false" useConsole="true" showConsoleOnStdOut="false" showConsoleOnStdErr="false" synchronizeAfterRun="true">
+    <exec>
+      <option name="COMMAND" value="powershell" />
+      <option name="PARAMETERS" value="-c rm -Recurse -Force D:\jetbr\apps\IDEA-U\m2\repo\localdomain" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+    </exec>
+  </tool>
+</toolSet>

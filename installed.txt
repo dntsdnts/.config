@@ -1,0 +1,7 @@
+com.intellij.ideolog
+com.intellij.plugins.vscodekeymap
+com.intellij.zh
+izhangzhihao.rainbow.brackets
+mobi.hsz.idea.gitignore
+net.seesharpsoft.intellij.plugins.csv
+some.awesome
