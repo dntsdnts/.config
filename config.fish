@@ -1,1 +1,3 @@
-/data/data/com.termux/files/home/.config/fish/config.fish
+if status is-interactive
+   
+end
