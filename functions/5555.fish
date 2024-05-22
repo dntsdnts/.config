@@ -7,4 +7,6 @@ function 5555
     adb kill-server
     adb devices -l
     adb shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh
+    adb shell sh /sdcard/Android/data/com.omarea.vtools/up.sh
+    adb shell 'output=$(pm path me.piebridge.brevent); export CLASSPATH=${output#*:}; app_process /system/bin me.piebridge.brevent.server.BreventServer bootstrap; /system/bin/sh /data/local/tmp/brevent.sh'
 end
