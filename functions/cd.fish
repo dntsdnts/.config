@@ -26,7 +26,7 @@ function cd --description 'Change directory'
 
     builtin cd $argv
 
-    if test $status -ne 0
+    if test $status -eq 1
         test "x$(read -P \x1b\[32mmkdir\?\x1b\(B\x1b\[m -n1)" = xy
         and mkdir -pv $argv
         and builtin cd $argv
@@ -54,7 +54,7 @@ function cd --description 'Change directory'
         set -U -q __fish_cd_direction
         and set -U __fish_cd_direction prev
         or set -g __fish_cd_direction prev
-    
+
     end
 
     return $cd_status
