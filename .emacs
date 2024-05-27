@@ -54,6 +54,7 @@
 (electric-pair-mode 1)
 (set-face-attribute 'default nil :family "Fira Code" :height 100)
 (use-package corfu
+  :ensure t
   ;; Optional customizations
   :custom
   (setq corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
@@ -79,6 +80,7 @@
   (global-corfu-mode));
 ;; Enable vertico
 (use-package vertico
+  :ensure t
   :init
   (vertico-mode)
 
@@ -97,6 +99,7 @@
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
+  :ensure t
   :init
   (savehist-mode))
 
