@@ -3,7 +3,7 @@
 SETUVAR __fish_initialized:3400
 SETUVAR fish_ambiguous_width:1
 SETUVAR fish_autosuggestion_enabled:on
-SETUVAR fish_color_autosuggestion:777777
+SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:\x2d\x2dreverse
 SETUVAR fish_color_command:55cdfc\x1e\x2d\x2dbold
 SETUVAR fish_color_comment:brgreen\x1e\x2d\x2ddim
