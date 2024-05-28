@@ -5,19 +5,22 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(battery-mode-line-format "[%b%p%%] ")
- '(battery-status-function 'w32-battery-status)
+ '(battery-status-function nil)
  '(battery-update-interval 0)
  '(battery-upower-subscribe t)
  '(blink-cursor-alist nil)
  '(blink-cursor-blinks 2)
  '(blink-cursor-interval 0.016666666666666666)
  '(blink-cursor-mode t)
- '(display-line-numbers 'visual)
+ '(display-line-numbers 2)
  '(display-line-numbers-current-absolute nil)
  '(inhibit-startup-screen t)
  '(package-selected-packages '(vertica corfu vertico))
  '(require-final-newline t)
- '(truncate-lines t))
+ '(truncate-lines nil)
+ '(tool-bar-mode nil)
+ '(menu-bar-mode nil)
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -45,11 +48,13 @@
 (modify-coding-system-alist 'process "*" 'utf-8)
 (setq system-time-locale "C")
 
-(tool-bar-mode -1)
 (display-battery-mode 1)
 (display-time-mode 1)
 (setq-default cursor-type '(bar . 2))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+	("gnu" . "https://elpa.gnu.org/packages/")
+	("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
 (electric-pair-mode 1)
 (set-face-attribute 'default nil :family "Fira Code" :height 100)
