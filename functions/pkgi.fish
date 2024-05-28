@@ -1,4 +1,3 @@
 function pkgi --wraps='pacman -Su' --description 'alias pkgi=pacman -Su'
-  pacman -Su $argv
-        
+    pacman -S $argv
 end
