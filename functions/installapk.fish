@@ -4,9 +4,9 @@ function installapk
         echo $z
         set tmp (path resolve (mktemp ~/storage/documents/tmpXXXXXXXX.apk))
         adb shell mv $z $tmp
-        and adb install $tmp
+        and adb install -i com.android.vending $tmp
         and adb shell mv $tmp $z
-        or adb install $z
+        or adb install -i com.android.vending $z
         and adb shell rm -v $z
     end
 end
