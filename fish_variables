@@ -1,7 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:3400
-SETUVAR __fish_ls_command:eza
 SETUVAR fish_ambiguous_width:1
 SETUVAR fish_autosuggestion_enabled:on
 SETUVAR fish_color_autosuggestion:brblack
