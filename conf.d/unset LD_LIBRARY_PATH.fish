@@ -1,1 +1,0 @@
-set -gx LD_LIBRARY_PATH
