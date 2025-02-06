@@ -1,10 +1,15 @@
 function 5555
-    set -l ips 127.0.0.1:$argv 127.0.0.1:5555 127.0.0.1:(rustscan -g -a(ifconfig 2>/dev/null|rg -oPU '(?<=inet\s)(\S*)') -r37000-44000|rg -o '\d{5}')
-    for s in $ips
-        adb disconnect
-        adb connect $s
-        adb tcpip 5555
-        and break
+    while :
+        set -l ips 127.0.0.1:$argv 127.0.0.1:5555 127.0.0.1:(rustscan -g -a(ifconfig 2>/dev/null|rg -oPU '(?<=inet\s)(\S*)') -r37000-44000|rg -o '\d{5}')
+        for s in $ips
+            adb disconnect
+            adb connect $s
+            adb tcpip 5555
+            and break
+        end
+        if test $status = 0
+            break
+        end
     end
     sleep 1
     adb kill-server
