@@ -1,4 +1,4 @@
 function funces --wraps=funced\ \$argv\nfuncsave\ \$argv\[1\] --description 'alias funced&&funcsave'
-    funced $argv
+    EDITOR=fish funced $argv
     and funcsave $argv[1]
 end
