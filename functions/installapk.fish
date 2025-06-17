@@ -5,9 +5,9 @@ function installapk
         if test (read -P'y?' -n1) = y
             set tmp (path resolve (mktemp ~/storage/documents/tmpXXXXXXXX.apk))
             adb shell mv $z $tmp
-            and adb install -i com.android.vending $tmp
+            and adb install -i @null $tmp
             and adb shell mv $tmp $z
-            or adb install -i com.android.vending $z
+            or adb install -i @null $z
             and adb shell rm -v $z
             rm $tmp
         end
