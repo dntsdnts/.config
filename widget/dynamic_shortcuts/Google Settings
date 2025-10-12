@@ -1,0 +1,2 @@
+#!/bin/sh
+am start -n com.google.android.gms/.app.settings.GoogleSettingsLink
