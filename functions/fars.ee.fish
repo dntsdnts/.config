@@ -1,3 +1,3 @@
-function fars.ee
-    curl -Fc=@- https://fars.ee
+function fars.ee --wraps='curl -Fc=@- $argv https://fars.ee' --wraps='curl -Fc=@- https://fars.ee' --description 'alias fars.ee=curl -Fc=@- https://fars.ee'
+    curl -Fc=@- $argv https://fars.ee
 end

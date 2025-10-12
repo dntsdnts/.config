@@ -4,7 +4,7 @@ function 5555
     adb reconnect offline
     adb devices | rg emulator-5554
     or while :
-        set ips $ips:(rustscan -g -a$ips -r37000-44000|rg -o '\d{5}')
+        set ips $ips:(rustscan -g -a$ips -r37000-44000 -t2000 -- -Pn|rg -o '\d{5}')
         _ $ips,' '
         for s in $ips
             adb connect $s
@@ -15,13 +15,23 @@ function 5555
         or continue
         adb kill-server
         adb start-server
-        while :
-            adb -s emulator-5554 get-state | rg device
-            and break
+        adb -s emulator-5554 get-state | rg device
+        or begin
+            read \
+                -P(string unescape '\e\[32mip:port\e\(B\e\[m\=\ ') \
+                -ft s
+            adb connect $s
+            adb tcpip 5555
+            adb disconnect $s
+            adb shell sleep 1
         end
-        for s in emulator-5554
-            adb -s $s shell 'sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh;sh /sdcard/Android/data/com.omarea.vtools/up.sh;output=$(pm path me.piebridge.brevent); export CLASSPATH=${output#*:}; app_process /system/bin me.piebridge.brevent.server.BreventServer bootstrap; /system/bin/sh /data/local/tmp/brevent.sh;settings put global adb_wifi_enabled 0'
-        end
+        adb -s emulator-5554 shell '
+echo -e \\\x1b[31m[scene];sh /sdcard/Android/data/com.omarea.vtools/up.sh;
+echo -e \\\x1b[32m[brevent];output=$(pm path me.piebridge.brevent); export CLASSPATH=${output#*:}; app_process /system/bin me.piebridge.brevent.server.BreventServer bootstrap; /system/bin/sh /data/local/tmp/brevent.sh;
+echo -e \\\x1b[33m[shizuku]'
+        shizuku-start
+        adb shell settings put global adb_wifi_enabled 0
+        echo \x1b\[30m
         and break
     end
 end
