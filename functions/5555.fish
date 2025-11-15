@@ -17,18 +17,18 @@ function 5555
         adb start-server
         adb -s emulator-5554 get-state | rg device
         or begin
-            read \
+            read s \
                 -P(string unescape '\e\[32mip:port\e\(B\e\[m\=\ ') \
-                -ft s
-            adb connect $s
+                -f
+            s=$s adb connect $s
             adb tcpip 5555
             adb disconnect $s
             adb shell sleep 1
         end
         adb -s emulator-5554 shell '
-echo -e \\\x1b[31m[scene];sh /sdcard/Android/data/com.omarea.vtools/up.sh;
-echo -e \\\x1b[32m[brevent];output=$(pm path me.piebridge.brevent); export CLASSPATH=${output#*:}; app_process /system/bin me.piebridge.brevent.server.BreventServer bootstrap; /system/bin/sh /data/local/tmp/brevent.sh;
-echo -e \\\x1b[33m[shizuku]'
+echo -e \\\x1b[33m[scene];sh /sdcard/Android/data/com.omarea.vtools/up.sh;
+echo -e \\\x1b[35m[brevent];output=$(pm path me.piebridge.brevent); export CLASSPATH=${output#*:}; app_process /system/bin me.piebridge.brevent.server.BreventServer bootstrap; /system/bin/sh /data/local/tmp/brevent.sh;
+echo -e \\\x1b[36m[shizuku]'
         shizuku-start
         adb shell settings put global adb_wifi_enabled 0
         echo \x1b\[30m

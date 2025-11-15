@@ -1,3 +1,8 @@
 function strshuf
-    termux-clipboard-get | iconv -t UTF-32 | basenc --base16 -w8 | tail +2 | shuf | basenc --base16 -d | iconv -f UTF-32
+    bat | string trim |
+        iconv -t UTF-32BE |
+        xxd -p -c4 |
+        shuf |
+        xxd -p -r |
+        iconv -f UTF-32BE
 end
