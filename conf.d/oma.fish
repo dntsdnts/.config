@@ -1,0 +1,2 @@
+set -g OMA_DOWNLOAD_THREADS 9
+set -g OMA_NO_BELL
