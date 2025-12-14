@@ -100,7 +100,6 @@ function fish_prompt
         _nim_prompt_wrapper $retc '' $mode
     end
 
-
     # Virtual Environment
     set -q VIRTUAL_ENV_DISABLE_PROMPT
     or set -g VIRTUAL_ENV_DISABLE_PROMPT true

@@ -1,86 +1,86 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_uv_global_optspecs
-	string join \n n/no-cache cache-dir= python-preference= managed-python no-managed-python allow-python-downloads no-python-downloads python-fetch= q/quiet v/verbose no-color color= native-tls no-native-tls offline no-offline allow-insecure-host= preview no-preview isolated show-settings no-progress no-installer-metadata directory= project= config-file= no-config h/help V/version
+    string join \n n/no-cache cache-dir= python-preference= managed-python no-managed-python allow-python-downloads no-python-downloads python-fetch= q/quiet v/verbose no-color color= native-tls no-native-tls offline no-offline allow-insecure-host= preview no-preview isolated show-settings no-progress no-installer-metadata directory= project= config-file= no-config h/help V/version
 end
 
 function __fish_uv_needs_command
-	# Figure out if the current invocation already has a command.
-	set -l cmd (commandline -opc)
-	set -e cmd[1]
-	argparse -s (__fish_uv_global_optspecs) -- $cmd 2>/dev/null
-	or return
-	if set -q argv[1]
-		# Also print the command, so this can be used to figure out what it is.
-		echo $argv[1]
-		return 1
-	end
-	return 0
+    # Figure out if the current invocation already has a command.
+    set -l cmd (commandline -opc)
+    set -e cmd[1]
+    argparse -s (__fish_uv_global_optspecs) -- $cmd 2>/dev/null
+    or return
+    if set -q argv[1]
+        # Also print the command, so this can be used to figure out what it is.
+        echo $argv[1]
+        return 1
+    end
+    return 0
 end
 
 function __fish_uv_using_subcommand
-	set -l cmd (__fish_uv_needs_command)
-	test -z "$cmd"
-	and return 1
-	contains -- $cmd[1] $argv
+    set -l cmd (__fish_uv_needs_command)
+    test -z "$cmd"
+    and return 1
+    contains -- $cmd[1] $argv
 end
 
-complete -c uv -n "__fish_uv_needs_command" -l cache-dir -d 'Path to the cache directory' -r -F
-complete -c uv -n "__fish_uv_needs_command" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
+complete -c uv -n __fish_uv_needs_command -l cache-dir -d 'Path to the cache directory' -r -F
+complete -c uv -n __fish_uv_needs_command -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
 managed\t'Prefer managed Python installations over system Python installations'
 system\t'Prefer system Python installations over managed Python installations'
 only-system\t'Only use system Python installations; never use managed Python installations'"
-complete -c uv -n "__fish_uv_needs_command" -l python-fetch -d 'Deprecated version of [`Self::python_downloads`]' -r -f -a "automatic\t'Automatically download managed Python installations when needed'
+complete -c uv -n __fish_uv_needs_command -l python-fetch -d 'Deprecated version of [`Self::python_downloads`]' -r -f -a "automatic\t'Automatically download managed Python installations when needed'
 manual\t'Do not automatically download managed Python installations; require explicit installation'
 never\t'Do not ever allow Python downloads'"
-complete -c uv -n "__fish_uv_needs_command" -l color -d 'Control the use of color in output' -r -f -a "auto\t'Enables colored output only when the output is going to a terminal or TTY with support'
+complete -c uv -n __fish_uv_needs_command -l color -d 'Control the use of color in output' -r -f -a "auto\t'Enables colored output only when the output is going to a terminal or TTY with support'
 always\t'Enables colored output regardless of the detected environment'
 never\t'Disables colored output'"
-complete -c uv -n "__fish_uv_needs_command" -l allow-insecure-host -d 'Allow insecure connections to a host' -r
-complete -c uv -n "__fish_uv_needs_command" -l directory -d 'Change to the given directory prior to running the command' -r -F
-complete -c uv -n "__fish_uv_needs_command" -l project -d 'Run the command within the given project directory' -r -F
-complete -c uv -n "__fish_uv_needs_command" -l config-file -d 'The path to a `uv.toml` file to use for configuration' -r -F
-complete -c uv -n "__fish_uv_needs_command" -s n -l no-cache -d 'Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation'
-complete -c uv -n "__fish_uv_needs_command" -l managed-python -d 'Require use of uv-managed Python versions'
-complete -c uv -n "__fish_uv_needs_command" -l no-managed-python -d 'Disable use of uv-managed Python versions'
-complete -c uv -n "__fish_uv_needs_command" -l allow-python-downloads -d 'Allow automatically downloading Python when required. [env: "UV_PYTHON_DOWNLOADS=auto"]'
-complete -c uv -n "__fish_uv_needs_command" -l no-python-downloads -d 'Disable automatic downloads of Python. [env: "UV_PYTHON_DOWNLOADS=never"]'
-complete -c uv -n "__fish_uv_needs_command" -s q -l quiet -d 'Do not print any output'
-complete -c uv -n "__fish_uv_needs_command" -s v -l verbose -d 'Use verbose output'
-complete -c uv -n "__fish_uv_needs_command" -l no-color -d 'Disable colors'
-complete -c uv -n "__fish_uv_needs_command" -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store'
-complete -c uv -n "__fish_uv_needs_command" -l no-native-tls
-complete -c uv -n "__fish_uv_needs_command" -l offline -d 'Disable network access'
-complete -c uv -n "__fish_uv_needs_command" -l no-offline
-complete -c uv -n "__fish_uv_needs_command" -l preview -d 'Whether to enable experimental, preview features'
-complete -c uv -n "__fish_uv_needs_command" -l no-preview
-complete -c uv -n "__fish_uv_needs_command" -l isolated -d 'Avoid discovering a `pyproject.toml` or `uv.toml` file'
-complete -c uv -n "__fish_uv_needs_command" -l show-settings -d 'Show the resolved settings for the current command'
-complete -c uv -n "__fish_uv_needs_command" -l no-progress -d 'Hide all progress outputs'
-complete -c uv -n "__fish_uv_needs_command" -l no-installer-metadata -d 'Skip writing `uv` installer metadata files (e.g., `INSTALLER`, `REQUESTED`, and `direct_url.json`) to site-packages `.dist-info` directories'
-complete -c uv -n "__fish_uv_needs_command" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
-complete -c uv -n "__fish_uv_needs_command" -s h -l help -d 'Display the concise help for this command'
-complete -c uv -n "__fish_uv_needs_command" -s V -l version -d 'Display the uv version'
-complete -c uv -n "__fish_uv_needs_command" -f -a "run" -d 'Run a command or script'
-complete -c uv -n "__fish_uv_needs_command" -f -a "init" -d 'Create a new project'
-complete -c uv -n "__fish_uv_needs_command" -f -a "add" -d 'Add dependencies to the project'
-complete -c uv -n "__fish_uv_needs_command" -f -a "remove" -d 'Remove dependencies from the project'
-complete -c uv -n "__fish_uv_needs_command" -f -a "sync" -d 'Update the project\'s environment'
-complete -c uv -n "__fish_uv_needs_command" -f -a "lock" -d 'Update the project\'s lockfile'
-complete -c uv -n "__fish_uv_needs_command" -f -a "export" -d 'Export the project\'s lockfile to an alternate format'
-complete -c uv -n "__fish_uv_needs_command" -f -a "tree" -d 'Display the project\'s dependency tree'
-complete -c uv -n "__fish_uv_needs_command" -f -a "tool" -d 'Run and install commands provided by Python packages'
-complete -c uv -n "__fish_uv_needs_command" -f -a "python" -d 'Manage Python versions and installations'
-complete -c uv -n "__fish_uv_needs_command" -f -a "pip" -d 'Manage Python packages with a pip-compatible interface'
-complete -c uv -n "__fish_uv_needs_command" -f -a "venv" -d 'Create a virtual environment'
-complete -c uv -n "__fish_uv_needs_command" -f -a "build" -d 'Build Python packages into source distributions and wheels'
-complete -c uv -n "__fish_uv_needs_command" -f -a "publish" -d 'Upload distributions to an index'
-complete -c uv -n "__fish_uv_needs_command" -f -a "build-backend" -d 'The implementation of the build backend'
-complete -c uv -n "__fish_uv_needs_command" -f -a "cache" -d 'Manage uv\'s cache'
-complete -c uv -n "__fish_uv_needs_command" -f -a "self" -d 'Manage the uv executable'
-complete -c uv -n "__fish_uv_needs_command" -f -a "clean" -d 'Clear the cache, removing all entries or those linked to specific packages'
-complete -c uv -n "__fish_uv_needs_command" -f -a "version" -d 'Display uv\'s version'
-complete -c uv -n "__fish_uv_needs_command" -f -a "generate-shell-completion" -d 'Generate shell completion'
-complete -c uv -n "__fish_uv_needs_command" -f -a "help" -d 'Display documentation for a command'
+complete -c uv -n __fish_uv_needs_command -l allow-insecure-host -d 'Allow insecure connections to a host' -r
+complete -c uv -n __fish_uv_needs_command -l directory -d 'Change to the given directory prior to running the command' -r -F
+complete -c uv -n __fish_uv_needs_command -l project -d 'Run the command within the given project directory' -r -F
+complete -c uv -n __fish_uv_needs_command -l config-file -d 'The path to a `uv.toml` file to use for configuration' -r -F
+complete -c uv -n __fish_uv_needs_command -s n -l no-cache -d 'Avoid reading from or writing to the cache, instead using a temporary directory for the duration of the operation'
+complete -c uv -n __fish_uv_needs_command -l managed-python -d 'Require use of uv-managed Python versions'
+complete -c uv -n __fish_uv_needs_command -l no-managed-python -d 'Disable use of uv-managed Python versions'
+complete -c uv -n __fish_uv_needs_command -l allow-python-downloads -d 'Allow automatically downloading Python when required. [env: "UV_PYTHON_DOWNLOADS=auto"]'
+complete -c uv -n __fish_uv_needs_command -l no-python-downloads -d 'Disable automatic downloads of Python. [env: "UV_PYTHON_DOWNLOADS=never"]'
+complete -c uv -n __fish_uv_needs_command -s q -l quiet -d 'Do not print any output'
+complete -c uv -n __fish_uv_needs_command -s v -l verbose -d 'Use verbose output'
+complete -c uv -n __fish_uv_needs_command -l no-color -d 'Disable colors'
+complete -c uv -n __fish_uv_needs_command -l native-tls -d 'Whether to load TLS certificates from the platform\'s native certificate store'
+complete -c uv -n __fish_uv_needs_command -l no-native-tls
+complete -c uv -n __fish_uv_needs_command -l offline -d 'Disable network access'
+complete -c uv -n __fish_uv_needs_command -l no-offline
+complete -c uv -n __fish_uv_needs_command -l preview -d 'Whether to enable experimental, preview features'
+complete -c uv -n __fish_uv_needs_command -l no-preview
+complete -c uv -n __fish_uv_needs_command -l isolated -d 'Avoid discovering a `pyproject.toml` or `uv.toml` file'
+complete -c uv -n __fish_uv_needs_command -l show-settings -d 'Show the resolved settings for the current command'
+complete -c uv -n __fish_uv_needs_command -l no-progress -d 'Hide all progress outputs'
+complete -c uv -n __fish_uv_needs_command -l no-installer-metadata -d 'Skip writing `uv` installer metadata files (e.g., `INSTALLER`, `REQUESTED`, and `direct_url.json`) to site-packages `.dist-info` directories'
+complete -c uv -n __fish_uv_needs_command -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
+complete -c uv -n __fish_uv_needs_command -s h -l help -d 'Display the concise help for this command'
+complete -c uv -n __fish_uv_needs_command -s V -l version -d 'Display the uv version'
+complete -c uv -n __fish_uv_needs_command -f -a run -d 'Run a command or script'
+complete -c uv -n __fish_uv_needs_command -f -a init -d 'Create a new project'
+complete -c uv -n __fish_uv_needs_command -f -a add -d 'Add dependencies to the project'
+complete -c uv -n __fish_uv_needs_command -f -a remove -d 'Remove dependencies from the project'
+complete -c uv -n __fish_uv_needs_command -f -a sync -d 'Update the project\'s environment'
+complete -c uv -n __fish_uv_needs_command -f -a lock -d 'Update the project\'s lockfile'
+complete -c uv -n __fish_uv_needs_command -f -a export -d 'Export the project\'s lockfile to an alternate format'
+complete -c uv -n __fish_uv_needs_command -f -a tree -d 'Display the project\'s dependency tree'
+complete -c uv -n __fish_uv_needs_command -f -a tool -d 'Run and install commands provided by Python packages'
+complete -c uv -n __fish_uv_needs_command -f -a python -d 'Manage Python versions and installations'
+complete -c uv -n __fish_uv_needs_command -f -a pip -d 'Manage Python packages with a pip-compatible interface'
+complete -c uv -n __fish_uv_needs_command -f -a venv -d 'Create a virtual environment'
+complete -c uv -n __fish_uv_needs_command -f -a build -d 'Build Python packages into source distributions and wheels'
+complete -c uv -n __fish_uv_needs_command -f -a publish -d 'Upload distributions to an index'
+complete -c uv -n __fish_uv_needs_command -f -a build-backend -d 'The implementation of the build backend'
+complete -c uv -n __fish_uv_needs_command -f -a cache -d 'Manage uv\'s cache'
+complete -c uv -n __fish_uv_needs_command -f -a self -d 'Manage the uv executable'
+complete -c uv -n __fish_uv_needs_command -f -a clean -d 'Clear the cache, removing all entries or those linked to specific packages'
+complete -c uv -n __fish_uv_needs_command -f -a version -d 'Display uv\'s version'
+complete -c uv -n __fish_uv_needs_command -f -a generate-shell-completion -d 'Generate shell completion'
+complete -c uv -n __fish_uv_needs_command -f -a help -d 'Display documentation for a command'
 complete -c uv -n "__fish_uv_using_subcommand run" -l extra -d 'Include optional dependencies from the specified extra name' -r
 complete -c uv -n "__fish_uv_using_subcommand run" -l no-extra -d 'Exclude the specified optional dependencies, if `--all-extras` is supplied' -r
 complete -c uv -n "__fish_uv_using_subcommand run" -l group -d 'Include dependencies from the specified dependency group' -r
@@ -941,14 +941,14 @@ complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcomma
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -s V -l version -d 'Display the uv version'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "run" -d 'Run a command provided by a Python package'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "uvx" -d 'Run a command provided by a Python package.'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "install" -d 'Install commands provided by a Python package'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "upgrade" -d 'Upgrade installed tools'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "list" -d 'List installed tools'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "uninstall" -d 'Uninstall a tool'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "update-shell" -d 'Ensure that the tool executable directory is on the `PATH`'
-complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a "dir" -d 'Show the path to the uv tools directory'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a run -d 'Run a command provided by a Python package'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a uvx -d 'Run a command provided by a Python package.'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a install -d 'Install commands provided by a Python package'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a upgrade -d 'Upgrade installed tools'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a list -d 'List installed tools'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a uninstall -d 'Uninstall a tool'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a update-shell -d 'Ensure that the tool executable directory is on the `PATH`'
+complete -c uv -n "__fish_uv_using_subcommand tool; and not __fish_seen_subcommand_from run uvx install upgrade list uninstall update-shell dir" -f -a dir -d 'Show the path to the uv tools directory'
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l from -d 'Use the given package to provide the command' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l with -d 'Run with the given packages installed' -r
 complete -c uv -n "__fish_uv_using_subcommand tool; and __fish_seen_subcommand_from run" -l with-editable -d 'Run with the given packages installed in editable mode' -r
@@ -1508,12 +1508,12 @@ complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcom
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -s V -l version -d 'Display the uv version'
-complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a "list" -d 'List the available Python installations'
-complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a "install" -d 'Download and install Python versions'
-complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a "find" -d 'Search for a Python installation'
-complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a "pin" -d 'Pin to a specific Python version'
-complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a "dir" -d 'Show the uv Python installation directory'
-complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a "uninstall" -d 'Uninstall Python versions'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a list -d 'List the available Python installations'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a install -d 'Download and install Python versions'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a find -d 'Search for a Python installation'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a pin -d 'Pin to a specific Python version'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a dir -d 'Show the uv Python installation directory'
+complete -c uv -n "__fish_uv_using_subcommand python; and not __fish_seen_subcommand_from list install find pin dir uninstall" -f -a uninstall -d 'Uninstall Python versions'
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l output-format -d 'Select the output format' -r -f -a "text\t'Plain text (for humans)'
 json\t'JSON (for computers)'"
 complete -c uv -n "__fish_uv_using_subcommand python; and __fish_seen_subcommand_from list" -l cache-dir -d 'Path to the cache directory' -r -F
@@ -1790,15 +1790,15 @@ complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcomman
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -s V -l version -d 'Display the uv version'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "compile" -d 'Compile a `requirements.in` file to a `requirements.txt` file'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "sync" -d 'Sync an environment with a `requirements.txt` file'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "install" -d 'Install packages into an environment'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "uninstall" -d 'Uninstall packages from an environment'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "freeze" -d 'List, in requirements format, packages installed in an environment'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "list" -d 'List, in tabular format, packages installed in an environment'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "show" -d 'Show information about one or more installed packages'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "tree" -d 'Display the dependency tree for an environment'
-complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a "check" -d 'Verify installed packages have compatible dependencies'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a compile -d 'Compile a `requirements.in` file to a `requirements.txt` file'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a sync -d 'Sync an environment with a `requirements.txt` file'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a install -d 'Install packages into an environment'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a uninstall -d 'Uninstall packages from an environment'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a freeze -d 'List, in requirements format, packages installed in an environment'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a list -d 'List, in tabular format, packages installed in an environment'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a show -d 'Show information about one or more installed packages'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a tree -d 'Display the dependency tree for an environment'
+complete -c uv -n "__fish_uv_using_subcommand pip; and not __fish_seen_subcommand_from compile sync install uninstall freeze list show tree check" -f -a check -d 'Verify installed packages have compatible dependencies'
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -s c -l constraints -d 'Constrain versions using the given requirements files' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -l overrides -d 'Override versions using the given requirements files' -r
 complete -c uv -n "__fish_uv_using_subcommand pip; and __fish_seen_subcommand_from compile" -s b -l build-constraints -d 'Constrain build dependencies using the given requirements files when building source distributions' -r
@@ -2870,14 +2870,14 @@ complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -s V -l version -d 'Display the uv version'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "build-sdist" -d 'PEP 517 hook `build_sdist`'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "build-wheel" -d 'PEP 517 hook `build_wheel`'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "build-editable" -d 'PEP 660 hook `build_editable`'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "get-requires-for-build-sdist" -d 'PEP 517 hook `get_requires_for_build_sdist`'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "get-requires-for-build-wheel" -d 'PEP 517 hook `get_requires_for_build_wheel`'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "prepare-metadata-for-build-wheel" -d 'PEP 517 hook `prepare_metadata_for_build_wheel`'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "get-requires-for-build-editable" -d 'PEP 660 hook `get_requires_for_build_editable`'
-complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a "prepare-metadata-for-build-editable" -d 'PEP 660 hook `prepare_metadata_for_build_editable`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a build-sdist -d 'PEP 517 hook `build_sdist`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a build-wheel -d 'PEP 517 hook `build_wheel`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a build-editable -d 'PEP 660 hook `build_editable`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a get-requires-for-build-sdist -d 'PEP 517 hook `get_requires_for_build_sdist`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a get-requires-for-build-wheel -d 'PEP 517 hook `get_requires_for_build_wheel`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a prepare-metadata-for-build-wheel -d 'PEP 517 hook `prepare_metadata_for_build_wheel`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a get-requires-for-build-editable -d 'PEP 660 hook `get_requires_for_build_editable`'
+complete -c uv -n "__fish_uv_using_subcommand build-backend; and not __fish_seen_subcommand_from build-sdist build-wheel build-editable get-requires-for-build-sdist get-requires-for-build-wheel prepare-metadata-for-build-wheel get-requires-for-build-editable prepare-metadata-for-build-editable" -f -a prepare-metadata-for-build-editable -d 'PEP 660 hook `prepare_metadata_for_build_editable`'
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l cache-dir -d 'Path to the cache directory' -r -F
 complete -c uv -n "__fish_uv_using_subcommand build-backend; and __fish_seen_subcommand_from build-sdist" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
 managed\t'Prefer managed Python installations over system Python installations'
@@ -3204,9 +3204,9 @@ complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcomm
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -s V -l version -d 'Display the uv version'
-complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -f -a "clean" -d 'Clear the cache, removing all entries or those linked to specific packages'
-complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -f -a "prune" -d 'Prune all unreachable objects from the cache'
-complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -f -a "dir" -d 'Show the cache directory'
+complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -f -a clean -d 'Clear the cache, removing all entries or those linked to specific packages'
+complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -f -a prune -d 'Prune all unreachable objects from the cache'
+complete -c uv -n "__fish_uv_using_subcommand cache; and not __fish_seen_subcommand_from clean prune dir" -f -a dir -d 'Show the cache directory'
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l cache-dir -d 'Path to the cache directory' -r -F
 complete -c uv -n "__fish_uv_using_subcommand cache; and __fish_seen_subcommand_from clean" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'
 managed\t'Prefer managed Python installations over system Python installations'
@@ -3352,7 +3352,7 @@ complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcomma
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update" -l no-config -d 'Avoid discovering configuration files (`pyproject.toml`, `uv.toml`)'
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update" -s h -l help -d 'Display the concise help for this command'
 complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update" -s V -l version -d 'Display the uv version'
-complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update" -f -a "update" -d 'Update uv'
+complete -c uv -n "__fish_uv_using_subcommand self; and not __fish_seen_subcommand_from update" -f -a update -d 'Update uv'
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l token -d 'A GitHub token for authentication. A token is not required but can be used to reduce the chance of encountering rate limits' -r
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l cache-dir -d 'Path to the cache directory' -r -F
 complete -c uv -n "__fish_uv_using_subcommand self; and __fish_seen_subcommand_from update" -l python-preference -r -f -a "only-managed\t'Only use managed Python installations; never use system Python installations'

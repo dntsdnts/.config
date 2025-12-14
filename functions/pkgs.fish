@@ -1,4 +1,4 @@
 function pkgs --wraps='pacman -Ss' --description 'alias pkgs pacman -Ss'
-  pacman -Ss $argv
-        
+    pacman -Ss $argv
+
 end

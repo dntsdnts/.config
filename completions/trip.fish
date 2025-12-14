@@ -100,4 +100,3 @@ complete -c trip -l print-locales -d 'Print all available TUI locales and exit'
 complete -c trip -s v -l verbose -d 'Enable verbose debug logging'
 complete -c trip -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c trip -s V -l version -d 'Print version'
-
