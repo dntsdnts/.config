@@ -1,3 +1,3 @@
 function funcdel --wraps='functions -e' --description 'alias funcdel=functions -e'
-    functions -e $argv
+    functions -e $argv && funcsave $argv
 end
